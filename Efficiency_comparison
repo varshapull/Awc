@@ -1,0 +1,152 @@
+library(pdist)
+perfect <-function(dataset)  ##Function to extract all Anganwadi centers which have maximum efficiency (i.e 100%)
+{
+  d1<-dataset[dataset$eff==1,c(1,2,357,358)]
+  
+}
+
+imperfect <- function(dats) ##Function which extracts all Anganwadi centers which are not at 100% efficiency
+{
+  d2<- dats[dats$eff !=1,c(1,2,357,358)]
+ 
+  }
+
+
+
+#FUNCTION TO FIGURE OUT THE REFERENCE UNIT
+
+compute_eff<- function(dea,data1)
+{
+  x_perfect<-perfect(dea)
+  x_imperfect <-imperfect(dea)
+  
+  
+  names(x_perfect) <- c("X","eff","name","district")
+  xp<-inner_join(x_perfect,data1,by = "name")
+  xp<-select(xp,livebirths,SNPreg,HCPreg)
+  
+  names(x_imperfect)<-c("X","eff","name","district")
+  xip<-inner_join(x_imperfect,data1,by = "name")
+  xip<-select(xip,livebirths,SNPreg,HCPreg)
+  eff<-as.matrix(pdist(xip,xp))
+  return (eff)
+}
+
+
+jan_eff <-compute_eff(dea_jan,jan)
+write.csv(jan_eff,"D:\\Project\\EE\\dea\\dea_total\\euclidean\\jan_dist.csv")
+feb_eff<-compute_eff(dea_feb,f)
+write.csv(feb_eff,"D:\\Project\\EE\\dea\\dea_total\\euclidean\\feb_dist.csv")
+View(feb_eff)
+
+mar_eff<-compute_eff(dea_mar,mr)
+write.csv(mar_eff,"D:\\Project\\EE\\dea\\dea_total\\euclidean\\mar_dist.csv")
+View(mar_eff)
+
+april_eff <- compute_eff(dea_april,a)
+write.csv(april_eff,"D:\\Project\\EE\\dea\\dea_total\\euclidean\\april_dist.csv")
+View(april_eff)
+
+may_eff <- compute_eff(dea_may,m)
+write.csv(may_eff,"D:\\Project\\EE\\dea\\dea_total\\euclidean\\may_dist.csv")
+View(may_eff)
+
+june_eff <- compute_eff(dea_june,j)
+write.csv(june_eff,"D:\\Project\\EE\\dea\\dea_total\\euclidean\\june_dist.csv")
+View(june_eff)
+
+july_eff <- compute_eff(dea_july,jl)
+write.csv(july_eff,"D:\\Project\\EE\\dea\\dea_total\\euclidean\\july_dist.csv")
+
+aug_eff <- compute_eff(dea_aug,aug)
+write.csv(aug_eff,"D:\\Project\\EE\\dea\\dea_total\\euclidean\\aug_dist.csv")
+
+sept_eff <- compute_eff(dea_sept,s)
+write.csv(sept_eff,"D:\\Project\\EE\\dea\\dea_total\\euclidean\\sept_dist.csv")
+
+nov_eff <- compute_eff(dea_nov,nov)
+write.csv(nov_eff,"D:\\Project\\EE\\dea\\dea_total\\euclidean\\nov_dist.csv")
+
+dec_eff <- compute_eff(dea_dec,dec)
+write.csv(dec_eff,"D:\\Project\\EE\\dea\\dea_total\\euclidean\\dec_dist.csv")
+
+########## ANALYZING DATA TO FIND THE REFERENCE UNITS
+
+jan_ref_inter<-apply(jan_eff,1,which.min) ## which.min function gives the indices of the all min values, for each row, hence we mention our
+##second arg as 1 indicating rows
+describe(jan_ref_inter) ##observing frequency for each reference unit.
+
+
+f_perfect<-perfect(dea_feb)
+f_imperfect <-imperfect(dea_feb)
+
+feb_ref_inter<-apply(feb_eff,1,which.min) ## which.min function gives the indices of the all min values, for each row, hence we mention our
+##second arg as 1 indicating rows
+describe(feb_ref_inter)
+
+m_perfect<-perfect(dea_mar)
+m_imperfect <-imperfect(dea_mar)
+
+mar_ref_inter<-apply(mar_eff,1,which.min) ## which.min function gives the indices of the all min values, for each row, hence we mention our
+##second arg as 1 indicating rows
+describe(mar_ref_inter)
+
+april_perfect<-perfect(dea_april)
+april_imperfect <-imperfect(dea_april)
+
+april_ref_inter<-apply(april_eff,1,which.min) ## which.min function gives the indices of the all min values, for each row, hence we mention our
+##second arg as 1 indicating rows
+describe(april_ref_inter)
+
+may_perfect<-perfect(dea_may)
+may_imperfect <-imperfect(dea_may)
+
+may_ref_inter<-apply(may_eff,1,which.min) ## which.min function gives the indices of the all min values, for each row, hence we mention our
+##second arg as 1 indicating rows
+describe(may_ref_inter)
+
+june_perfect<-perfect(dea_june)
+june_imperfect <-imperfect(dea_june)
+
+june_ref_inter<-apply(june_eff,1,which.min) ## which.min function gives the indices of the all min values, for each row, hence we mention our
+##second arg as 1 indicating rows
+describe(june_ref_inter)
+
+july_perfect<-perfect(dea_july)
+july_imperfect <-imperfect(dea_july)
+
+july_ref_inter<-apply(july_eff,1,which.min) ## which.min function gives the indices of the all min values, for each row, hence we mention our
+##second arg as 1 indicating rows
+describe(july_ref_inter)
+
+aug_perfect<-perfect(dea_aug)
+aug_imperfect <-imperfect(dea_aug)
+
+aug_ref_inter<-apply(aug_eff,1,which.min) ## which.min function gives the indices of the all min values, for each row, hence we mention our
+##second arg as 1 indicating rows
+describe(aug_ref_inter)
+
+sept_perfect<-perfect(dea_sept)
+sept_imperfect <-imperfect(dea_sept)
+
+sept_ref_inter<-apply(sept_eff,1,which.min) ## which.min function gives the indices of the all min values, for each row, hence we mention our
+##second arg as 1 indicating rows
+describe(sept_ref_inter)
+
+nov_perfect<-perfect(dea_nov)
+nov_imperfect <-imperfect(dea_nov)
+
+nov_ref_inter<-apply(nov_eff,1,which.min) ## which.min function gives the indices of the all min values, for each row, hence we mention our
+##second arg as 1 indicating rows
+describe(nov_ref_inter)
+
+
+dec_perfect<-perfect(dea_dec)
+dec_imperfect <-imperfect(dea_dec)
+
+dec_ref_inter<-apply(dec_eff,1,which.min) ## which.min function gives the indices of the all min values, for each row, hence we mention our
+##second arg as 1 indicating rows
+describe(dec_ref_inter)
+
+
+##Next script is effciency analysis
